@@ -1,0 +1,5 @@
+This file will teach you how to find your COM port number in your computer.
+
+Right click the icon of "My Computer" in the desktop. 
+
+Choose "Management" -> "Device Management" -> "COM and LPT". You will find your COM port number

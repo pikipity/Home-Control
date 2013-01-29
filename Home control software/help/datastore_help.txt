@@ -1,0 +1,1 @@
+Datastore path configure is very easy. Please copy or fill the path where you want to store your control habit data to the entry.

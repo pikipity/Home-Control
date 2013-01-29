@@ -1,0 +1,15 @@
+This program is used to help users to configure the autocontrol home system and manage users' habits according to the data collected by this Intillgent Home Control System.
+
+This file is used to teach you how to use this program to configure this system.
+
+First, please press the "Configuration" button to configure the COM port and the data store path to make sure this program can collect the data and store them.
+
+Then you can press the "Strat Control" button. After this, this program will start to collect your control data until you press the "Stop Control" button.
+
+After control started, you can press the "habit figure" button to see your control habit, press the "Configure Automatic Switch" to configure the automatic control or edit the collect data directly by pressing the "Edit data" button.
+
+If you find some problom or bugs, please feel free to content us. You can find our email in "About".
+
+Thank you very much.
+
+Wang Ze and all team members

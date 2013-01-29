@@ -1,0 +1,3 @@
+Since boudrate is defined by our hardware device, if you don't know our device very well, please don't change.
+
+Thank you.
