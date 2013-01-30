@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>家庭自动控制系统 by pikipity</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>家庭自动控制系统</h1>
+        <p>家庭自动控制系统</p>
+        <p class="view"><a href="https://github.com/pikipity/Home-Control">View the Project on GitHub <small>pikipity/Home-Control</small></a></p>
+        <ul>
+          <li><a href="https://github.com/pikipity/Home-Control/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/pikipity/Home-Control/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/pikipity/Home-Control">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>家庭自动控制系统</h1>
+
+<p>我们尝试用STC的8051系列单片机构建一个简单的家庭控制系统。主要实现以下两点功能:
+1. 实现单片机将控制信息传输到PC，由PC根据收集的数据运算得到进行操作的时间，实现自动根据用户习惯进行控制
+2. 用户通过PC输入希望执行操作的时间，PC到时自动向单片机发送信息，实现操作</p>
+
+<hr><h2>项目主要包括三个部分：</h2>
+
+<ol>
+<li>硬件设计：
+主要是单片机的控制电路设计，主要实现发送、接受和控制三个功能</li>
+<li>软件设计：
+使用Python脚本语言，使用Tkinter模块制作图形化界面，方便用户操作</li>
+<li>周边设计：
+主要是项目主页的设计，和最后的产品包装与演示设计</li>
+</ol><hr><h2>现已包括：</h2>
+
+<ol>
+<li>Home Control Software文件夹：主要包括现已基本完成的软件部分，由于需要硬件搭配使用，持续更新中</li>
+<li>Red communication test文件夹：STC89C52RC编程部分，硬件使用的是提供的开发板电路，现在只是一个单片机，有线连接情况下的控制LED灯亮灭实现</li>
+</ol>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/pikipity">pikipity</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
