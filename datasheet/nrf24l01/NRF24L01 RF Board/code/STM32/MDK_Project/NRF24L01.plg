@@ -1,0 +1,139 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+F:\Ä£¿é×ÊÁÏ\NRF24L01\code\MDK_Project\NRF24L01.uvproj
+Project File Date:  10/09/2011
+
+<h2>Output:</h2>
+Clean started: Project: 'NRF24L01'
+   deleting intermediate output files for target 'Target 1'
+Build target 'Target 1'
+assembling startup_stm32f10x_hd.s...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_spi.c...
+compiling stm32f10x_usart.c...
+compiling system_stm32f10x.c...
+compiling main.c...
+..\User\NRF24L01\NRF24L01.h(10): warning:  #47-D: incompatible redefinition of macro "READ_REG" (declared at line 8314 of "..\Lib\cmsis\stm32f10x.h")
+..\User\NRF24L01\NRF24L01.h(11): warning:  #47-D: incompatible redefinition of macro "WRITE_REG" (declared at line 8312 of "..\Lib\cmsis\stm32f10x.h")
+compiling stm32f10x_it.c...
+compiling usart.c...
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.h(10): warning:  #47-D: incompatible redefinition of macro "READ_REG" (declared at line 8314 of "..\Lib\cmsis\stm32f10x.h")
+..\User\NRF24L01\NRF24L01.h(11): warning:  #47-D: incompatible redefinition of macro "WRITE_REG" (declared at line 8312 of "..\Lib\cmsis\stm32f10x.h")
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(213): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling main.c...
+..\User\NRF24L01\NRF24L01.h(10): warning:  #47-D: incompatible redefinition of macro "READ_REG" (declared at line 8314 of "..\Lib\cmsis\stm32f10x.h")
+..\User\NRF24L01\NRF24L01.h(11): warning:  #47-D: incompatible redefinition of macro "WRITE_REG" (declared at line 8312 of "..\Lib\cmsis\stm32f10x.h")
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.h(10): warning:  #47-D: incompatible redefinition of macro "READ_REG" (declared at line 8314 of "..\Lib\cmsis\stm32f10x.h")
+..\User\NRF24L01\NRF24L01.h(11): warning:  #47-D: incompatible redefinition of macro "WRITE_REG" (declared at line 8312 of "..\Lib\cmsis\stm32f10x.h")
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(214): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling main.c...
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(124): warning:  #223-D: function "SPI_WRITE_REG_NRF24L01" declared implicitly
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(147): warning:  #223-D: function "SPI_WRITE_REG_NRF24L01" declared implicitly
+..\User\NRF24L01\NRF24L01.c(161): warning:  #223-D: function "SPI_WRITE_REG_NRF24L01" declared implicitly
+..\User\NRF24L01\NRF24L01.c(182): warning:  #223-D: function "SPI_WRITE_REG_NRF24L01" declared implicitly
+..\User\NRF24L01\NRF24L01.c(206): warning:  #223-D: function "SPI_WRITE_REG_NRF24L01" declared implicitly
+..\User\NRF24L01\NRF24L01.c(214): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(124): warning:  #223-D: function "SPI_WRITE_REG_NRF24L01" declared implicitly
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(182): warning:  #223-D: function "SPI_WRITE_REG_NRF24L01" declared implicitly
+..\User\NRF24L01\NRF24L01.c(214): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(135): warning:  #223-D: function "SPI_WRITE_REG_NRF24L01" declared implicitly
+..\User\NRF24L01\NRF24L01.c(214): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(220): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(220): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(213): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(102): error:  #513: a value of type "void" cannot be assigned to an entity of type "u8"
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(214): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #20: identifier "RX_DS" is undefined
+..\User\NRF24L01\NRF24L01.c(214): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling main.c...
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(128): error:  #167: argument of type "int" is incompatible with parameter of type "SPI_TypeDef *"
+..\User\NRF24L01\NRF24L01.c(128): error:  #165: too few arguments in function call
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+..\User\NRF24L01\NRF24L01.c(135): error:  #20: identifier "WRITE_REG" is undefined
+..\User\NRF24L01\NRF24L01.c(213): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+..\User\NRF24L01\NRF24L01.c(135): error:  #20: identifier "WRITE_REG" is undefined
+..\User\NRF24L01\NRF24L01.c(213): warning:  #1-D: last line of file ends without a newline
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+Target not created
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+..\User\NRF24L01\NRF24L01.c - 1 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+Target not created
+Build target 'Target 1'
+compiling NRF24L01.c...
+..\User\NRF24L01\NRF24L01.c(129): error:  #18: expected a ")"
+Target not created
