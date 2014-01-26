@@ -722,8 +722,8 @@ ConfigureButton=Tkinter.Button(MainFrame,borderwidth=1,\
                                command=ConfigureCom_Open)
 ConfigureButton.pack(fill='both',expand=1,padx=2,pady=1,ipadx=2,ipady=1)
 
-HabitButton=Tkinter.Button(MainFrame,borderwidth=1,text="Habit Figure",\
-                           font="Times 23 bold",state="disabled")
+HabitButton=Tkinter.Button(MainFrame,borderwidth=1,text="Little Housekeeper",\
+                           font="Times 23 bold")#,state="disabled")
 HabitButton.pack(fill='both',expand=1,padx=2,pady=1,ipadx=2,ipady=1)
 
 ConfigureAutoButton=Tkinter.Button(MainFrame,borderwidth=1,\

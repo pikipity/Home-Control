@@ -12,11 +12,97 @@ typedef unsigned char uint8;
 sbit Ir_Pin = P3^3;
 
 uint8 Ir_Buf[4]={0x00,0xFF,0x16,0xE6}; //用于保存解码结果
+uint8 device_info[3]={0,0,0};
 unsigned char DeviceNum;
+/*
 unsigned char code number[]={0xc0,0xf9,0xa4,0xb0,
 				             0x99,0x92,0x82,0xf8,
 				             0x80,0x90};
+							 */
 unsigned char Receving;
+
+unsigned char code word1[]={"Device One On"};
+unsigned char code word2[]={"Device One Off"};
+unsigned char code word3[]={"Device Two On"};
+unsigned char code word4[]={"Device Two Off"};
+unsigned char code word5[]={"Device Three On"};
+unsigned char code word6[]={"Device Three Off"};
+unsigned char code word7[]={"                "};
+unsigned char code word8[]={"No this device"};
+unsigned char open_word[]={"O"};
+unsigned char close_word[]={"X"};
+
+/**
+ * 等待繁忙标志
+*/
+void wait(void)
+{
+	P0 = 0xFF;
+	
+	do
+	{
+		RS = 0;
+		RW = 1;
+		EN = 0;
+		EN = 1;
+	}while (BUSY == 1);
+	EN = 0;
+}
+
+/**
+ * 写数据
+*/
+void w_dat(unsigned char dat)
+{
+	wait();
+	EN = 0;
+	P0 = dat;
+	RS = 1;
+	RW = 0;
+	EN = 1;
+	EN = 0;
+}
+
+/**
+ * 写命令
+*/
+void w_cmd(unsigned char cmd)
+{
+	wait();
+	EN = 0;
+	P0 = cmd;
+	RS = 0;
+	RW = 0;
+	EN = 1;
+	EN = 0;
+}
+
+/**
+ * 发送字符串到LCD
+*/
+void w_string(unsigned char addr_start, unsigned char *p)
+{
+	unsigned char *pp;
+	
+	pp = p;
+	w_cmd(addr_start);
+	while (*pp != '\0')
+	{
+		w_dat(*pp++);
+	}
+}
+
+
+/**
+ * 初始化1602
+*/
+void Init_LCD1602(void)
+{
+	w_cmd(0x01);  // 清屏
+	w_cmd(0x38);  // 16*2显示，5*7点阵，8位数据接口
+	w_cmd(0x0C);  // 显示器开、光标开、光标允许闪烁
+	w_cmd(0x06);  // 文字不动，光标自动右移
+}
 
 
 /*
@@ -58,9 +144,11 @@ void UART_Send_Byte(uint8 dat)
 	TI = 0;
 }
 
+
 /*
  * 数码管初始化
 */
+/*
 void LED_init()
 {
 	ENLED1=0;
@@ -69,6 +157,7 @@ void LED_init()
 	ADDR1=1;
 	ADDR2=1;
 }
+*/
 
 
 /*
@@ -102,22 +191,65 @@ unsigned int Ir_Get_High()
 
 main()
 {
-	LED_init();
+	Init_LCD1602();
+	//LED_init();
+	w_string(0x80,close_word);
+	w_string(0x81,close_word);
+	w_string(0x82,close_word);
 	Timer_init();
 	uart_init();
 	int1_init();
 
 	while (1)
 	{
+		/*
+		DB7=~device_info[0];
+		DB6=~device_info[1];
+		DB5=~device_info[2];
+		*/
 		if(RI==1)
 		{
 			Receving=SBUF;
 			switch(Receving>>1)
 			{
-				case 1:DB7=Receving & 0x01;
-				case 2:DB6=Receving & 0x01;
-				case 3:DB5=Receving & 0x01;
+				case 1:
+					device_info[0]=(~(Receving & 0x01))&0x01;
+					w_string(0xC0,word7); 
+					if(device_info[0]){
+						w_string(0xC0,word1);
+						w_string(0x80,open_word);
+					}else{
+						w_string(0xC0,word2);
+						w_string(0x80,close_word);
+					}
+					break;
+				case 2:
+					device_info[1]=(~(Receving & 0x01))&0x01;
+					w_string(0xC0,word7); 
+					if(device_info[1]){
+						w_string(0xC0,word3);
+						w_string(0x81,open_word);
+					}else{
+						w_string(0xC0,word4);
+						w_string(0x81,close_word);
+					}
+					break;
+				case 3:
+					device_info[2]=(~(Receving & 0x01))&0x01;
+					w_string(0xC0,word7); 
+					if(device_info[2]){
+						w_string(0xC0,word5);
+						w_string(0x82,open_word);
+					}else{
+						w_string(0xC0,word6);
+						w_string(0x82,close_word);
+					}
+					break;
+				default:
+					w_string(0xC0,word7); 
+					w_string(0xC0,word8);
 			}	
+			RI=0;
 		}
 	}
 }
@@ -154,8 +286,38 @@ void int1_isr() interrupt 2
 	//UART_Send_Byte(Ir_Buf[2]);
 	switch(Ir_Buf[2])
 		{
-			case 0x0C:DB7=~DB7;DeviceNum=(1<<1)|DB7;UART_Send_Byte(DeviceNum); break;
-			case 0x18:DB6=~DB6;DeviceNum=(2<<1)|DB6;UART_Send_Byte(DeviceNum); break;
-			case 0x5E:DB5=~DB5;DeviceNum=(3<<1)|DB5;UART_Send_Byte(DeviceNum); break;
+			case 0x0C:
+				w_string(0xC0,word7); 
+				if(device_info[0]){
+					w_string(0xC0,word2);
+					w_string(0x80,close_word);
+				}else{
+					w_string(0xC0,word1);
+					w_string(0x80,open_word);
+				}
+				device_info[0]=~device_info[0];DeviceNum=(1<<1)|(~(device_info[0])&0x01);UART_Send_Byte(DeviceNum); break;
+			case 0x18:
+				w_string(0xC0,word7); 
+				if(device_info[1]){
+					w_string(0xC0,word4);
+					w_string(0x81,close_word);
+				}else{
+					w_string(0xC0,word3);
+					w_string(0x81,open_word);
+				}
+				device_info[1]=~device_info[1];DeviceNum=(2<<1)|(~(device_info[1])&0x01);UART_Send_Byte(DeviceNum); break;
+			case 0x5E:
+				w_string(0xC0,word7); 
+				if(device_info[2]){
+					w_string(0xC0,word6);
+					w_string(0x82,close_word);
+				}else{
+					w_string(0xC0,word5);
+					w_string(0x82,open_word);
+				}
+				device_info[2]=~device_info[2];DeviceNum=(3<<1)|(~(device_info[2])&0x01);UART_Send_Byte(DeviceNum); break;
+			default:
+				w_string(0xC0,word7); 
+			    w_string(0xC0,word8);
 		}
 }

@@ -1,4 +1,4 @@
-C51 COMPILER V8.02   MAIN                                                                  01/19/2013 23:14:35 PAGE 1   
+C51 COMPILER V8.02   MAIN                                                                  01/26/2014 10:49:33 PAGE 1   
 
 
 C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
@@ -21,165 +21,336 @@ line level    source
   12          sbit Ir_Pin = P3^3;
   13          
   14          uint8 Ir_Buf[4]={0x00,0xFF,0x16,0xE6}; //用于保存解码结果
-  15          unsigned char DeviceNum;
-  16          unsigned char code number[]={0xc0,0xf9,0xa4,0xb0,
-  17                                                       0x99,0x92,0x82,0xf8,
-  18                                                       0x80,0x90};
-  19          unsigned char Receving;
-  20          
-  21          
-  22          /*
-  23           * 外部中断初始化
-  24          */
-  25          void int1_init(void)
-  26          {
-  27   1              IT1 = 1; //下降沿有效
-  28   1              EX1 = 1;
-  29   1              EA = 1;
-  30   1      }
-  31          
-  32          void Timer_init()
-  33          {
-  34   1              TMOD=0x21;
-  35   1              TH1 = 0xFD;
-  36   1          TL1 = 0xFD;
-  37   1      
-  38   1          TR1 = 1;
-  39   1      }
-  40          
-  41          
-  42          /*
-  43           * UART初始化
-  44           * 波特率：9600
-  45          */
-  46          void uart_init(void)
-  47          { 
-  48   1          SCON = 0x50; 
-  49   1      }
-  50          
-  51          /*
-  52           * UART发送一字节
-  53          */
-  54          void UART_Send_Byte(uint8 dat)
-  55          {
-C51 COMPILER V8.02   MAIN                                                                  01/19/2013 23:14:35 PAGE 2   
+  15          uint8 device_info[3]={0,0,0};
+  16          unsigned char DeviceNum;
+  17          /*
+  18          unsigned char code number[]={0xc0,0xf9,0xa4,0xb0,
+  19                                                       0x99,0x92,0x82,0xf8,
+  20                                                       0x80,0x90};
+  21                                                                   */
+  22          unsigned char Receving;
+  23          
+  24          unsigned char code word1[]={"Device One On"};
+  25          unsigned char code word2[]={"Device One Off"};
+  26          unsigned char code word3[]={"Device Two On"};
+  27          unsigned char code word4[]={"Device Two Off"};
+  28          unsigned char code word5[]={"Device Three On"};
+  29          unsigned char code word6[]={"Device Three Off"};
+  30          unsigned char code word7[]={"                "};
+  31          unsigned char code word8[]={"No this device"};
+  32          unsigned char open_word[]={"O"};
+  33          unsigned char close_word[]={"X"};
+  34          
+  35          /**
+  36           * 等待繁忙标志
+  37          */
+  38          void wait(void)
+  39          {
+  40   1              P0 = 0xFF;
+  41   1              
+  42   1              do
+  43   1              {
+  44   2                      RS = 0;
+  45   2                      RW = 1;
+  46   2                      EN = 0;
+  47   2                      EN = 1;
+  48   2              }while (BUSY == 1);
+  49   1              EN = 0;
+  50   1      }
+  51          
+  52          /**
+  53           * 写数据
+  54          */
+  55          void w_dat(unsigned char dat)
+C51 COMPILER V8.02   MAIN                                                                  01/26/2014 10:49:33 PAGE 2   
 
-  56   1              SBUF = dat;
-  57   1              while (TI == 0);
-  58   1              TI = 0;
-  59   1      }
-  60          
-  61          /*
-  62           * 数码管初始化
-  63          */
-  64          void LED_init()
-  65          {
-  66   1              ENLED1=0;
-  67   1              ADDR3=1;
-  68   1              ADDR0=0;
-  69   1              ADDR1=1;
-  70   1              ADDR2=1;
-  71   1      }
-  72          
-  73          
-  74          /*
-  75           * 获取低电平时间
-  76          */
-  77          unsigned int Ir_Get_Low()
-  78          {
-  79   1              TL0 = 0;
-  80   1              TH0 = 0;
-  81   1              TR0 = 1;
-  82   1              while (!Ir_Pin && (TH0&0x80)==0);  
-  83   1                    
-  84   1              TR0 = 0;           
-  85   1              return (TH0 * 256 + TL0);
-  86   1      }
-  87          
-  88          /*
-  89           * 获取高电平时间
-  90          */
-  91          unsigned int Ir_Get_High()
-  92          {
-  93   1              TL0 = 0;
-  94   1              TH0 = 0;
-  95   1              TR0 = 1;
-  96   1              while (Ir_Pin && (TH0&0x80)==0);
-  97   1      
-  98   1              TR0 = 0;
-  99   1              return (TH0 * 256 + TL0);
- 100   1      }
- 101          
- 102          
- 103          main()
- 104          {
- 105   1              LED_init();
- 106   1              Timer_init();
- 107   1              uart_init();
- 108   1              int1_init();
- 109   1      
- 110   1              while (1)
- 111   1              {
- 112   2                      if(RI==1)
- 113   2                      {
- 114   3                              Receving=SBUF;
- 115   3                              switch(Receving>>1)
- 116   3                              {
- 117   4                                      case 1:DB7=Receving & 0x01;
-C51 COMPILER V8.02   MAIN                                                                  01/19/2013 23:14:35 PAGE 3   
+  56          {
+  57   1              wait();
+  58   1              EN = 0;
+  59   1              P0 = dat;
+  60   1              RS = 1;
+  61   1              RW = 0;
+  62   1              EN = 1;
+  63   1              EN = 0;
+  64   1      }
+  65          
+  66          /**
+  67           * 写命令
+  68          */
+  69          void w_cmd(unsigned char cmd)
+  70          {
+  71   1              wait();
+  72   1              EN = 0;
+  73   1              P0 = cmd;
+  74   1              RS = 0;
+  75   1              RW = 0;
+  76   1              EN = 1;
+  77   1              EN = 0;
+  78   1      }
+  79          
+  80          /**
+  81           * 发送字符串到LCD
+  82          */
+  83          void w_string(unsigned char addr_start, unsigned char *p)
+  84          {
+  85   1              unsigned char *pp;
+  86   1              
+  87   1              pp = p;
+  88   1              w_cmd(addr_start);
+  89   1              while (*pp != '\0')
+  90   1              {
+  91   2                      w_dat(*pp++);
+  92   2              }
+  93   1      }
+  94          
+  95          
+  96          /**
+  97           * 初始化1602
+  98          */
+  99          void Init_LCD1602(void)
+ 100          {
+ 101   1              w_cmd(0x01);  // 清屏
+ 102   1              w_cmd(0x38);  // 16*2显示，5*7点阵，8位数据接口
+ 103   1              w_cmd(0x0C);  // 显示器开、光标开、光标允许闪烁
+ 104   1              w_cmd(0x06);  // 文字不动，光标自动右移
+ 105   1      }
+ 106          
+ 107          
+ 108          /*
+ 109           * 外部中断初始化
+ 110          */
+ 111          void int1_init(void)
+ 112          {
+ 113   1              IT1 = 1; //下降沿有效
+ 114   1              EX1 = 1;
+ 115   1              EA = 1;
+ 116   1      }
+ 117          
+C51 COMPILER V8.02   MAIN                                                                  01/26/2014 10:49:33 PAGE 3   
 
- 118   4                                      case 2:DB6=Receving & 0x01;
- 119   4                                      case 3:DB5=Receving & 0x01;
- 120   4                              }       
- 121   3                      }
- 122   2              }
- 123   1      }
- 124          
- 125          void int1_isr() interrupt 2
- 126          {
- 127   1              unsigned int temp;
- 128   1              char i,j;
- 129   1      
- 130   1              temp = Ir_Get_Low();
- 131   1              if ((temp < 7833) || (temp > 8755))  //引导脉冲低电平8500~9500us
- 132   1                      return;
- 133   1              temp = Ir_Get_High();
- 134   1              if ((temp < 3686) || (temp > 4608))  //引导脉冲高电平4000~5000us
- 135   1                      return;
- 136   1      
- 137   1              for (i=0; i<4; i++) //4个字节
- 138   1              {
- 139   2                      for (j=0; j<8; j++) //每个字节8位
- 140   2                      {
- 141   3                              temp = Ir_Get_Low();
- 142   3                              if ((temp < 184) || (temp > 737)) //200~800us
- 143   3                                      return;
- 144   3      
- 145   3                              temp = Ir_Get_High();
- 146   3                              if ((temp < 184) || (temp > 1843)) //200~2000us
- 147   3                                      return;
- 148   3      
- 149   3                              Ir_Buf[i] >>= 1;
- 150   3                              if (temp > 1032) //1120us
- 151   3                                      Ir_Buf[i] |= 0x80;
- 152   3                      }
- 153   2              }
- 154   1              //UART_Send_Byte(Ir_Buf[2]);
- 155   1              switch(Ir_Buf[2])
- 156   1                      {
- 157   2                              case 0x0C:DB7=~DB7;DeviceNum=(1<<1)|DB7;UART_Send_Byte(DeviceNum); break;
- 158   2                              case 0x18:DB6=~DB6;DeviceNum=(2<<1)|DB6;UART_Send_Byte(DeviceNum); break;
- 159   2                              case 0x5E:DB5=~DB5;DeviceNum=(3<<1)|DB5;UART_Send_Byte(DeviceNum); break;
- 160   2                      }
- 161   1      }
+ 118          void Timer_init()
+ 119          {
+ 120   1              TMOD=0x21;
+ 121   1              TH1 = 0xFD;
+ 122   1          TL1 = 0xFD;
+ 123   1      
+ 124   1          TR1 = 1;
+ 125   1      }
+ 126          
+ 127          
+ 128          /*
+ 129           * UART初始化
+ 130           * 波特率：9600
+ 131          */
+ 132          void uart_init(void)
+ 133          { 
+ 134   1          SCON = 0x50; 
+ 135   1      }
+ 136          
+ 137          /*
+ 138           * UART发送一字节
+ 139          */
+ 140          void UART_Send_Byte(uint8 dat)
+ 141          {
+ 142   1              SBUF = dat;
+ 143   1              while (TI == 0);
+ 144   1              TI = 0;
+ 145   1      }
+ 146          
+ 147          
+ 148          /*
+ 149           * 数码管初始化
+ 150          */
+ 151          /*
+ 152          void LED_init()
+ 153          {
+ 154                  ENLED1=0;
+ 155                  ADDR3=1;
+ 156                  ADDR0=0;
+ 157                  ADDR1=1;
+ 158                  ADDR2=1;
+ 159          }
+ 160          */
+ 161          
+ 162          
+ 163          /*
+ 164           * 获取低电平时间
+ 165          */
+ 166          unsigned int Ir_Get_Low()
+ 167          {
+ 168   1              TL0 = 0;
+ 169   1              TH0 = 0;
+ 170   1              TR0 = 1;
+ 171   1              while (!Ir_Pin && (TH0&0x80)==0);  
+ 172   1                    
+ 173   1              TR0 = 0;           
+ 174   1              return (TH0 * 256 + TL0);
+ 175   1      }
+ 176          
+ 177          /*
+ 178           * 获取高电平时间
+ 179          */
+C51 COMPILER V8.02   MAIN                                                                  01/26/2014 10:49:33 PAGE 4   
+
+ 180          unsigned int Ir_Get_High()
+ 181          {
+ 182   1              TL0 = 0;
+ 183   1              TH0 = 0;
+ 184   1              TR0 = 1;
+ 185   1              while (Ir_Pin && (TH0&0x80)==0);
+ 186   1      
+ 187   1              TR0 = 0;
+ 188   1              return (TH0 * 256 + TL0);
+ 189   1      }
+ 190          
+ 191          
+ 192          main()
+ 193          {
+ 194   1              Init_LCD1602();
+ 195   1              //LED_init();
+ 196   1              w_string(0x80,close_word);
+ 197   1              w_string(0x81,close_word);
+ 198   1              w_string(0x82,close_word);
+ 199   1              Timer_init();
+ 200   1              uart_init();
+ 201   1              int1_init();
+ 202   1      
+ 203   1              while (1)
+ 204   1              {
+ 205   2                      /*
+ 206   2                      DB7=~device_info[0];
+ 207   2                      DB6=~device_info[1];
+ 208   2                      DB5=~device_info[2];
+ 209   2                      */
+ 210   2                      if(RI==1)
+ 211   2                      {
+ 212   3                              Receving=SBUF;
+ 213   3                              switch(Receving>>1)
+ 214   3                              {
+ 215   4                                      case 1:
+ 216   4                                              device_info[0]=(~(Receving & 0x01))&0x01;
+ 217   4                                              w_string(0xC0,word7); 
+ 218   4                                              if(device_info[0]){
+ 219   5                                                      w_string(0xC0,word1);
+ 220   5                                                      w_string(0x80,open_word);
+ 221   5                                              }else{
+ 222   5                                                      w_string(0xC0,word2);
+ 223   5                                                      w_string(0x80,close_word);
+ 224   5                                              }
+ 225   4                                              break;
+ 226   4                                      case 2:
+ 227   4                                              device_info[1]=(~(Receving & 0x01))&0x01;
+ 228   4                                              w_string(0xC0,word7); 
+ 229   4                                              if(device_info[1]){
+ 230   5                                                      w_string(0xC0,word3);
+ 231   5                                                      w_string(0x81,open_word);
+ 232   5                                              }else{
+ 233   5                                                      w_string(0xC0,word4);
+ 234   5                                                      w_string(0x81,close_word);
+ 235   5                                              }
+ 236   4                                              break;
+ 237   4                                      case 3:
+ 238   4                                              device_info[2]=(~(Receving & 0x01))&0x01;
+ 239   4                                              w_string(0xC0,word7); 
+ 240   4                                              if(device_info[2]){
+ 241   5                                                      w_string(0xC0,word5);
+C51 COMPILER V8.02   MAIN                                                                  01/26/2014 10:49:33 PAGE 5   
+
+ 242   5                                                      w_string(0x82,open_word);
+ 243   5                                              }else{
+ 244   5                                                      w_string(0xC0,word6);
+ 245   5                                                      w_string(0x82,close_word);
+ 246   5                                              }
+ 247   4                                              break;
+ 248   4                                      default:
+ 249   4                                              w_string(0xC0,word7); 
+ 250   4                                              w_string(0xC0,word8);
+ 251   4                              }       
+ 252   3                              RI=0;
+ 253   3                      }
+ 254   2              }
+ 255   1      }
+ 256          
+ 257          void int1_isr() interrupt 2
+ 258          {
+ 259   1              unsigned int temp;
+ 260   1              char i,j;
+ 261   1      
+ 262   1              temp = Ir_Get_Low();
+ 263   1              if ((temp < 7833) || (temp > 8755))  //引导脉冲低电平8500~9500us
+ 264   1                      return;
+ 265   1              temp = Ir_Get_High();
+ 266   1              if ((temp < 3686) || (temp > 4608))  //引导脉冲高电平4000~5000us
+ 267   1                      return;
+ 268   1      
+ 269   1              for (i=0; i<4; i++) //4个字节
+ 270   1              {
+ 271   2                      for (j=0; j<8; j++) //每个字节8位
+ 272   2                      {
+ 273   3                              temp = Ir_Get_Low();
+ 274   3                              if ((temp < 184) || (temp > 737)) //200~800us
+ 275   3                                      return;
+ 276   3      
+ 277   3                              temp = Ir_Get_High();
+ 278   3                              if ((temp < 184) || (temp > 1843)) //200~2000us
+ 279   3                                      return;
+ 280   3      
+ 281   3                              Ir_Buf[i] >>= 1;
+ 282   3                              if (temp > 1032) //1120us
+ 283   3                                      Ir_Buf[i] |= 0x80;
+ 284   3                      }
+ 285   2              }
+ 286   1              //UART_Send_Byte(Ir_Buf[2]);
+ 287   1              switch(Ir_Buf[2])
+ 288   1                      {
+ 289   2                              case 0x0C:
+ 290   2                                      w_string(0xC0,word7); 
+ 291   2                                      if(device_info[0]){
+ 292   3                                              w_string(0xC0,word2);
+ 293   3                                              w_string(0x80,close_word);
+ 294   3                                      }else{
+ 295   3                                              w_string(0xC0,word1);
+ 296   3                                              w_string(0x80,open_word);
+ 297   3                                      }
+ 298   2                                      device_info[0]=~device_info[0];DeviceNum=(1<<1)|(~(device_info[0])&0x01);UART_Send_Byte(DeviceNum); br
+             -eak;
+ 299   2                              case 0x18:
+ 300   2                                      w_string(0xC0,word7); 
+ 301   2                                      if(device_info[1]){
+ 302   3                                              w_string(0xC0,word4);
+C51 COMPILER V8.02   MAIN                                                                  01/26/2014 10:49:33 PAGE 6   
+
+ 303   3                                              w_string(0x81,close_word);
+ 304   3                                      }else{
+ 305   3                                              w_string(0xC0,word3);
+ 306   3                                              w_string(0x81,open_word);
+ 307   3                                      }
+ 308   2                                      device_info[1]=~device_info[1];DeviceNum=(2<<1)|(~(device_info[1])&0x01);UART_Send_Byte(DeviceNum); br
+             -eak;
+ 309   2                              case 0x5E:
+ 310   2                                      w_string(0xC0,word7); 
+ 311   2                                      if(device_info[2]){
+ 312   3                                              w_string(0xC0,word6);
+ 313   3                                              w_string(0x82,close_word);
+ 314   3                                      }else{
+ 315   3                                              w_string(0xC0,word5);
+ 316   3                                              w_string(0x82,open_word);
+ 317   3                                      }
+ 318   2                                      device_info[2]=~device_info[2];DeviceNum=(3<<1)|(~(device_info[2])&0x01);UART_Send_Byte(DeviceNum); br
+             -eak;
+ 319   2                              default:
+ 320   2                                      w_string(0xC0,word7); 
+ 321   2                                  w_string(0xC0,word8);
+ 322   2                      }
+ 323   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    395    ----
-   CONSTANT SIZE    =     10    ----
+   CODE SIZE        =    891    ----
+   CONSTANT SIZE    =    123    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      6       2
+   DATA SIZE        =     13       5
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

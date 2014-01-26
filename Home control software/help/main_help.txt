@@ -6,7 +6,9 @@ First, please press the "Configuration" button to configure the COM port and the
 
 Then you can press the "Strat Control" button. After this, this program will start to collect your control data until you press the "Stop Control" button.
 
-After control started, you can press the "habit figure" button to see your control habit, press the "Configure Automatic Switch" to configure the automatic control or edit the collect data directly by pressing the "Edit data" button.
+After control started, you can press the "Configure Automatic Switch" to configure the automatic control or edit the collect data directly by pressing the "Edit data" button.
+
+"Little Housekeeper" will open the housekeeper program to help you control your devices.
 
 If you find some problom or bugs, please feel free to content us. You can find our email in "About".
 
