@@ -169,9 +169,10 @@ boolean input_name_adjust=false;
 
 void setup(){
   if(System.getProperties().getProperty("os.name").contains("Mac OS X")){
-    myPort=new Serial(this,"/dev/tty.usbmodem1411",9600);
+      myPort=new Serial(this,"/dev/tty.usbmodem1411",9600);
   }else if(System.getProperties().getProperty("os.name").contains("Windows")){
-    myPort=new Serial(this,"COM4",9600);
+    String portName=Serial.list()[0];
+    myPort=new Serial(this,portName,9600);
   }
   //get config
   mapping=loadStrings("map.txt");
@@ -269,7 +270,7 @@ void keyPressed() {
           output_text="Cannot find this device";
         }
         input_text="";
-      }
+      }else
       if(!begin){
         if(input_name){
           input_name=false;
