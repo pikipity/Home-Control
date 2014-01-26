@@ -168,7 +168,11 @@ boolean input_name=false;
 boolean input_name_adjust=false;
 
 void setup(){
-  myPort=new Serial(this,"COM4",9600);
+  if(System.getProperties().getProperty("os.name").contains("Mac OS X")){
+    myPort=new Serial(this,"/dev/tty.usbmodem1411",9600);
+  }else if(System.getProperties().getProperty("os.name").contains("Windows")){
+    myPort=new Serial(this,"COM4",9600);
+  }
   //get config
   mapping=loadStrings("map.txt");
   press_text=loadStrings("press_text.txt");
@@ -237,6 +241,35 @@ void keyPressed() {
       break;
     case ENTER:
     case RETURN:
+      if(input_text.toLowerCase().contains("open")&&input_text.toLowerCase().contains("device")){
+        if(input_text.toLowerCase().contains("one") || input_text.contains("1")){
+          myPort.write(0x02);
+          output_text="Let's Open device One";
+        }else if(input_text.toLowerCase().contains("two") || input_text.contains("2")){
+          myPort.write(0x04);
+          output_text="Let's Open device Two";
+        }else if(input_text.toLowerCase().contains("three") || input_text.contains("3")){
+          myPort.write(0x06);
+          output_text="Let's Open device Three";
+        }else{
+          output_text="Cannot find this device";
+        }    
+        input_text="";
+      }else if(input_text.toLowerCase().contains("close")&&input_text.toLowerCase().contains("device")){
+        if(input_text.toLowerCase().contains("one") || input_text.contains("1")){
+          myPort.write(0x03);
+          output_text="Let's Close device One";
+        }else if(input_text.toLowerCase().contains("two") || input_text.contains("2")){
+          myPort.write(0x05);
+          output_text="Let's Close device Two";
+        }else if(input_text.toLowerCase().contains("three") || input_text.contains("3")){
+          myPort.write(0x07);
+          output_text="Let's Close device Three";
+        }else{
+          output_text="Cannot find this device";
+        }
+        input_text="";
+      }
       if(!begin){
         if(input_name){
           input_name=false;
@@ -290,35 +323,7 @@ void keyPressed() {
 }
 
 void adjust_input_text(){
-  if(input_text.toLowerCase().contains("open")&&input_text.toLowerCase().contains("device")){
-    if(input_text.toLowerCase().contains("one")){
-      myPort.write(0x02);
-      output_text="Let's Open device One";
-    }else if(input_text.toLowerCase().contains("two")){
-      myPort.write(0x04);
-      output_text="Let's Open device Two";
-    }else if(input_text.toLowerCase().contains("three")){
-      myPort.write(0x06);
-      output_text="Let's Open device Three";
-    }else{
-      output_text="Cannot find this device";
-    }
-    input_text="";
-  }else if(input_text.toLowerCase().contains("close")&&input_text.toLowerCase().contains("device")){
-    if(input_text.toLowerCase().contains("one")){
-      myPort.write(0x03);
-      output_text="Let's Close device One";
-    }else if(input_text.toLowerCase().contains("two")){
-      myPort.write(0x05);
-      output_text="Let's Close device Two";
-    }else if(input_text.toLowerCase().contains("three")){
-      myPort.write(0x07);
-      output_text="Let's Close device Three";
-    }else{
-      output_text="Cannot find this device";
-    }
-    input_text="";
-  }else if(input_text.toLowerCase().contains(" means ")){
+  if(input_text.toLowerCase().contains(" means ")){
           int N=mapping.length;
           mapping=Arrays.copyOf(mapping,N+1);
           mapping[N]=input_text.substring(0,input_text.toLowerCase().indexOf(" means ")).toLowerCase()
