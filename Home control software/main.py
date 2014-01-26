@@ -344,9 +344,9 @@ def AboutUs_Open():
    #BitLabel.pack(side="top",padx=2,pady=1,ipadx=1,ipady=1)
 
     HardwareLabel=Tkinter.Message(AboutUs,text="""Hareware Team:
-Wang Ze                                      Zeng Tao
-DB029068                                    DB??????
-DB02906@umac.mo                   DB?????@umac.mo"""\
+Wang Ze                                      
+DB029068                                    
+DB02906@umac.mo                                                 """\
                         ,font="Times 15 bold",\
                            fg="#228B22",width=600)
     HardwareLabel.pack(side="top",padx=2,pady=1,ipadx=1,ipady=1)
