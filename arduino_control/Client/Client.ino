@@ -13,6 +13,11 @@ hardware:
  MOSI  SCK
  CSN   CE
  VCC   GND
+ 
+ device 1  6
+ device 2  4
+ device 3  2
+ note: long -> high
  */
 
 #include <SPI.h>
@@ -20,7 +25,10 @@ hardware:
 #include <nRF24L01.h>
 #include <MirfHardwareSpiDriver.h>
 
-byte device1_open=3;
+byte data[1];
+int led1=6;
+int led2=4;
+int led3=2;
 
 void setup(){
   //init serial port
@@ -29,19 +37,51 @@ void setup(){
   Mirf.spi=&MirfHardwareSpi;
   Mirf.init();
   //set self address
-  Mirf.setRADDR((byte *)"client");
-  //set transimate address
-  Mirf.setTADDR((byte *)"serve");
+  Mirf.setRADDR((byte *)"serve");
+  //set transmiate address
+  Mirf.setTADDR((byte *)"client");
   //set set data length
   Mirf.payload=sizeof(byte);
   //init nrf24l01
   Mirf.config();
-}
-
-void loop(){
-  if(Serial.available()>0){
-    byte com_data=Serial.read();
-    Mirf.send((byte *)&com_data);
+  //init device
+  for(int i=2;i<7;i++){
+    pinMode(i,OUTPUT);
+    digitalWrite(i,LOW);
   }
 }
 
+void loop(){
+  //adjust if data has been  recived
+  if(!Mirf.isSending() && Mirf.dataReady()){
+    //get data from nrf24l01
+    Mirf.getData(data);
+    byte rece=data[0];
+    //adjust device
+    switch(rece>>1){
+      case 1:
+        if(rece&1==1){
+          digitalWrite(led1,LOW);
+        }else{
+          digitalWrite(led1,HIGH);
+        }
+        break;
+      case 2:
+        if(rece&1==1){
+          digitalWrite(led2,LOW);
+        }else{
+          digitalWrite(led2,HIGH);
+        }
+        break;
+      case 3:
+        if(rece&1==1){
+          digitalWrite(led3,LOW);
+        }else{
+          digitalWrite(led3,HIGH);
+        }
+        break;
+      default:
+        break; 
+    }
+  }
+}
