@@ -1,77 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>家庭自动控制系统 by pikipity</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="家庭自动控制系统 : 家庭自动控制系统" />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <title>家庭自动控制系统</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>家庭自动控制系统</h1>
-        <p>家庭自动控制系统</p>
-        <p class="view"><a href="https://github.com/pikipity/Home-Control">View the Project on GitHub <small>pikipity/Home-Control</small></a></p>
-        <ul>
-          <li><a href="https://github.com/pikipity/Home-Control/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/pikipity/Home-Control/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/pikipity/Home-Control">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>家庭自动控制系统</h1>
 
-<p>我们尝试用STC的8051系列单片机构建一个简单的家庭控制系统。主要实现以下两点功能:
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/pikipity/Home-Control">View on GitHub</a>
+
+          <h1 id="project_title">家庭自动控制系统</h1>
+          <h2 id="project_tagline">家庭自动控制系统</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/pikipity/Home-Control/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/pikipity/Home-Control/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>用 Arduino 和 8051 单片机构建一个简单的家庭控制系统。主要实现以下两点功能：
+1、实现单片机将控制信息传输到PC，由PC根据收集的数据运算得到进行操作的时间，实现自动根据用户习惯进行控制
+2、用户通过PC输入希望执行操作的时间，PC到时自动向单片机发送信息，实现操作</p>
+
+<hr><p>项目主要包括三个部分：</p>
+
 <ol>
-  <li>实现单片机将控制信息传输到PC，由PC根据收集的数据运算得到进行操作的时间，实现自动根据用户习惯进行控制</li>
-  <li>用户通过PC输入希望执行操作的时间，PC到时自动向单片机发送信息，实现操作</li>
-</ol></p>
+<li>
+<p>硬件设计：
+包括红外遥控器控制部分和以电脑为中心的两种控制方式。红外遥控器控制以 8051 单片机为核心进行编码和解码以及控制的实现。以电脑为中心的控制以 Arduino UNO 为核心，使用 NRF24L01+ 模块进行无线传输控制。</p>
 
-<hr><h2>项目主要包括三个部分：</h2>
+<p>下面是以电脑为中心的发射和接受装置的电路图</p>
 
-<ol>
-<li>硬件设计：
-主要是单片机的控制电路设计，主要实现发送、接受和控制三个功能</li>
+<p><img src="https://lh3.googleusercontent.com/-SA0oif-C_R0/UueIUWH-9jI/AAAAAAAABdM/Ae4aOc2kgAE/s576/client_bb.png" alt="从机的接受装置"><img src="https://lh3.googleusercontent.com/-rtq3Msab1jI/UueIUbXiXQI/AAAAAAAABdI/fQ3Yztsff-I/s576/server_board.png" alt="主机的发射装置"></p>
+</li>
 <li>软件设计：
-使用Python脚本语言，使用Tkinter模块制作图形化界面，方便用户操作</li>
-<li>周边设计：
-主要是项目主页的设计，和最后的产品包装与演示设计</li>
-</ol><hr><h2>现已包括：</h2>
+使用Python脚本语言，使用Tkinter模块制作图形化界面，方便用户操作。将 <a href="https://github.com/pikipity/Little_Mr.git">Little Mr.</a> 加入了进来，作为一个附属程序，另名为 "Little Housekeeper"，你可以通过它直接进行控制。</li>
+</ol><hr><p>现已包括：</p>
 
 <ol>
-<li>Home Control Software文件夹：主要包括现已基本完成的软件部分，由于需要硬件搭配使用，持续更新中</li>
-<li>Red communication test文件夹：STC89C52RC编程部分，硬件使用的是提供的开发板电路，现在只是一个单片机，有线连接情况下的控制LED灯亮灭实现</li>
+<li>Home Control Software 文件夹：主要包括现已基本完成的软件部分，需要硬件搭配使用，包括 Python 编写的 GUI 和改进之后的 "Little Housekeeper"。</li>
+<li>Red_communication_test 文件夹：STC89C52RC编程部分。</li>
+<li>arduino_control 文件夹：Arduino UNO 的编程部分及电路图。</li>
+<li>datasheet 文件夹：可能会用到的 datasheet</li>
+</ol><hr><p>演示视频：</p>
+
+<ol>
+<li><a href="http://v.youku.com/v_show/id_XNjY2NzcwMzcy.html">GUI 使用演示</a></li>
+<li><a href="http://v.youku.com/v_show/id_XNjY2NzcwNzIw.html">Little Housekeeper 使用演示</a></li>
+<li><a href="http://v.youku.com/v_show/id_XNjY2NzcxMjY0.html">Arduino 演示</a></li>
 </ol>
       </section>
     </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/pikipity">pikipity</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-    
-    <script type="text/javascript">
-  	var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-38118079-1']);
-		_gaq.push(['_trackPageview']);
 
-		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		})();
-	</script>
-    
-    
-    
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">家庭自动控制系统 maintained by <a href="https://github.com/pikipity">pikipity</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-38118079-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
   </body>
 </html>
