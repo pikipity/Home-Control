@@ -168,11 +168,13 @@ boolean input_name=false;
 boolean input_name_adjust=false;
 
 void setup(){
+  if(Serial.list().length>0){
   if(System.getProperties().getProperty("os.name").contains("Mac OS X")){
       myPort=new Serial(this,"/dev/tty.usbmodem1411",9600);
   }else if(System.getProperties().getProperty("os.name").contains("Windows")){
     String portName=Serial.list()[0];
     myPort=new Serial(this,portName,9600);
+  }
   }
   //get config
   mapping=loadStrings("map.txt");
